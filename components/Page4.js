@@ -10,7 +10,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
 
 
-class Page3 extends React.Component {
+class Page4 extends React.Component {
 
   constructor (props){
      super (props);
@@ -43,6 +43,10 @@ class Page3 extends React.Component {
 
   }
 
+  onchangePage = () => {
+    this.props.navigation.navigate("Page5Screen",{userID: account.email})
+  }
+
   
 
   render() {
@@ -51,24 +55,15 @@ class Page3 extends React.Component {
       <LinearGradient
        colors={['#7F7FD5', '#86A8E7', '#91EAE4']}
        style={{flex: 1}}>
-      {/* <HeaderNavigationBar {...this.props} /> */}
-      <View style={{flex:1,justifyContent: 'center'}}>
 
-        <View style={{flexDirection: 'row'}}>
+        <Text style={styles.text}>Page4</Text>
+        <Text style={styles.text}>Page4</Text>
+        <TouchableOpacity
+          style={styles.touchableUser}
+          onPress={this.onchangePage}>
+            <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>Change</Text>
+        </TouchableOpacity>
 
-        <View style={{justifyContent:'center', width:150}}>
-           <Text style={{textAlign:'center',marginTop:20,color:'white',fontSize:20}}>Profile Image</Text>
-               <Image
-                   style={styles.imgStyles}
-                   source={{uri:this.state.imageuri}}/>
-        </View>
-
-        </View>
-
-        <Text style={styles.text}>{this.state.name}</Text>
-        <Text style={styles.text}>{this.state.email}</Text>
-
-      </View>
       </LinearGradient>
     );
   }
@@ -118,4 +113,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Page3;
+export default Page4;

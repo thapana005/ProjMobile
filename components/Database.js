@@ -51,7 +51,24 @@ class Database{
         console.log('Error getting documents', err);
       });
   }
+  
+  async updateFund(abc){
+    console.log("sdwijqfjiqfjiwejiowefwejiofjio")
+    firebase.firestore().collection('Account').where('firstName', '==', 'Aa').get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          console.log(doc.id)
+          let plusMoney = doc.data().money + 100
+          firebase.firestore().collection('Account').doc(doc.id).update({money: plusMoney})
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
 
+  }
 
   async readOnce(id,read_Account_success,read_Account_fail)
   {
@@ -117,6 +134,28 @@ class Database{
     }
   }
 
+  async getUser(getUserComplete) {
+    let user = firebase.auth().currentUser;
+    let name, email, photoUrl, uid, emailVerified;
+
+    if (user != null) {
+      name = user.displayName;
+      email = user.email;
+      photoUrl = user.photoURL;
+      emailVerified = user.emailVerified;
+      uid = user.uid;
+      console.log("in get User")
+      console.log(email)  // The user's ID, unique to the Firebase project. Do NOT use
+                      // this value to authenticate with your backend server, if
+                      // you have one. Use User.getToken() instead.
+    }
+
+    getUserComplete(user)
+  }
+
+  async addItemtoInventory(Obj, addItemComplete) {
+    firebase.firestore().collection("Inventorys").doc(Obj.email).set(Obj).then(addItemComplete());
+  }
 
 
   async createAccount(Account,add_Account_success,add_Account_fail)

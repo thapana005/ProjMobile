@@ -3,14 +3,14 @@ import { Constants, ImagePicker, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight
+  Button, ImageEditor,Image,Alert,TouchableHighlight, Vibration
 } from 'react-native';
 import database from './Database'
 import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
 
 
-class Page3 extends React.Component {
+class Page6 extends React.Component {
 
   constructor (props){
      super (props);
@@ -22,15 +22,34 @@ class Page3 extends React.Component {
 
   }
 
-  onFocusFunction = async() => {
-      //Alert.alert(this.props.navigation.state.params.userID)
-      database.readAll2(this.props.navigation.state.params.userID, this.read_Account_success, this.read_Account_fail)
+  async componentDidMount () {
+    // this.focusListener = this.props.navigation.addListener('didFocus', () => {
+    //   this.onFocusFunction()
+    // })
+    database.getUser(this.getUserComplete)
   }
 
-  async componentDidMount () {
-    this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      this.onFocusFunction()
-    })
+  getUserComplete=async(user)=>{
+    this.setState({ email: user.email })
+    console.log(user.email)
+  }
+
+  onPressAddFund= () => {
+      database.updateFund(this.state.email);
+    
+  }
+
+  addItemComplete=async()=>{
+    console.log("Open complete!!")
+    const DURATION = 10000;
+    const PATTERN = [500];
+
+    //Vibration.vibrate(DURATION);
+
+    Vibration.vibrate(PATTERN);
+
+    //Vibration.vibrate(PATTERN, true);
+    //Vibration.cancel();
   }
 
   read_Account_success=async(account)=>{
@@ -51,25 +70,18 @@ class Page3 extends React.Component {
       <LinearGradient
        colors={['#7F7FD5', '#86A8E7', '#91EAE4']}
        style={{flex: 1}}>
-      {/* <HeaderNavigationBar {...this.props} /> */}
-      <View style={{flex:1,justifyContent: 'center'}}>
 
-        <View style={{flexDirection: 'row'}}>
+        <Text style={styles.text}>Page6</Text>
+        <Text style={styles.text}>Page6</Text>
 
-        <View style={{justifyContent:'center', width:150}}>
-           <Text style={{textAlign:'center',marginTop:20,color:'white',fontSize:20}}>Profile Image</Text>
-               <Image
-                   style={styles.imgStyles}
-                   source={{uri:this.state.imageuri}}/>
-        </View>
+        <TouchableOpacity
+          style={styles.touchableUser}
+          onPress={this.onPressAddFund}>
+            <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>Adding Fund</Text>
+        </TouchableOpacity>
 
-        </View>
-
-        <Text style={styles.text}>{this.state.name}</Text>
-        <Text style={styles.text}>{this.state.email}</Text>
-
-      </View>
       </LinearGradient>
+
     );
   }
 }
@@ -118,4 +130,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Page3;
+export default Page6;
