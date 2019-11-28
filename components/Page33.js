@@ -1,16 +1,14 @@
 import React from 'react';
+import { Constants, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight, 
-  ImageBackground
+  Button, ImageEditor,Image,Alert,TouchableHighlight,ImageBackground
 } from 'react-native';
 import database from './Database'
+import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
-import Constants from 'expo-constants';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 
 
 class Page3 extends React.Component {
@@ -19,46 +17,21 @@ class Page3 extends React.Component {
      super (props);
      this.state = {
        name: 'Name : ',
-       email: 'Email : ',
-       imageuri :'https://sv1.picz.in.th/images/2019/08/22/ZRRyeW.png',
+       email: 'Trade Link : ',
+       imageuri :'https://i-love-png.com/images/img_191958_11550.png',
      };
 
   }
 
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-  }
-
   onFocusFunction = async() => {
-    //let mail = this.props.navigation.state.params.userID
-    //console.log(this.props.navigation.getParam('userMail'))
       //Alert.alert(this.props.navigation.state.params.userID)
-      //database.readAll2(this.props.navigation.state.params.userID, this.read_Account_success, this.read_Account_fail)
+      database.readAll2(this.props.navigation.state.params.userID, this.read_Account_success, this.read_Account_fail)
   }
 
   async componentDidMount () {
-    this.getPermissionAsync();
-    console.log('hi');
-    database.getUser(this.getUserComplete)
-  }
-
-  getUserComplete=async(user)=>{
-    database.getUserProfile(user.email,this.getUserProfileComplete)
-  }
-
-  getUserProfileComplete=async(user)=>{
-    console.log("Page3")
-    console.log(user)
-    this.setState({ name: user.firstName });
-    this.setState({ email: user.email});
-    this.setState({ imageuri: user.imageuri });
-    // this.setState({name: user.name})
-    // this.setState({email: user.email})
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
   }
 
   read_Account_success=async(account)=>{
@@ -71,44 +44,18 @@ class Page3 extends React.Component {
 
   }
 
-  upload_success=async()=>{
-
-  }
-
-  upload_fail=async()=>{
-
-  }
-
-  onPressOK = () => {
-    let profiles = {
-      email: this.state.email,
-      imageuri: this.state.imageuri,
-      firstName: this.state.name
-    }
-    database.updateProfile(profiles,this.updateImgSuccess)
-    database.uploadImage(this.state.imageuri,this.state.email,this.upload_success,this.upload_fail);
-  }
-
-  updateImgSuccess=async()=>{
-    //database.updateProfile2()
-  }
-
+  
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-    });
+    });;
 
     if (!result.cancelled) {
       this.setState({ imageuri: result.uri });
     }
-  };
-
-  onChangeTextName = name => this.setState({ name });
-  onChangeTextEmail = email => this.setState({ email })
-
-  
+};
 
   render() {
     return (
@@ -137,8 +84,8 @@ class Page3 extends React.Component {
 
         </View>
         <View style={{flex:1}}>
-        <TextInput style={styles.text} onChangeText={this.onChangeTextName}>{this.state.name}</TextInput>
-        <TextInput style={styles.text12} onChangeText={this.onChangeTextEmail}>{this.state.email}</TextInput>
+        <TextInput style={styles.text}>{this.state.name}</TextInput>
+        <TextInput style={styles.text12}>{this.state.email}</TextInput>
 
         <TouchableOpacity
         style={styles.touchableUser}

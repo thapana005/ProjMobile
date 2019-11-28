@@ -51,9 +51,22 @@ class Database{
         console.log('Error getting documents', err);
       });
   }
+
+  async getUserProfile(id, complete) {
+    firebase.firestore().collection('Account').where('email', '==', id).get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          complete(doc.data())
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
   
   async updateFund(abc){
-    console.log("sdwijqfjiqfjiwejiowefwejiofjio")
     firebase.firestore().collection('Account').where('firstName', '==', 'Aa').get().then(snap => {
       if (snap.empty) {
         console.log("EMP")
@@ -62,6 +75,41 @@ class Database{
           console.log(doc.id)
           let plusMoney = doc.data().money + 100
           firebase.firestore().collection('Account').doc(doc.id).update({money: plusMoney})
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  async updateProfile(profiles, complete){
+    firebase.firestore().collection('Account').where('email', '==', profiles.email).get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          console.log('inUpdate Prof come')
+          console.log(profiles)
+          console.log('inUpdate Found')
+          console.log(doc.data())
+          firebase.firestore().collection('Account').doc(doc.id).update({firstName: profiles.firstName, imageuri: profiles.imageuri})
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  async updateProfile2(profiles){
+    firebase.firestore().collection('Account').where('email', '==', profiles.email).get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          console.log(doc.id)
+          firebase.firestore().collection('Account').doc(doc.id).update({firstName: profiles.firstName})
         })
       }
     }).catch(err => {

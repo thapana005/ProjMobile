@@ -1,14 +1,12 @@
 import React from 'react';
+import { Constants, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight, 
-  ImageBackground
+  Button, ImageEditor,Image,Alert,TouchableHighlight,ImageBackground
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
-import Constants from 'expo-constants';
 import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
 import database from './Database'
 
 class Page2 extends React.Component {
@@ -25,20 +23,6 @@ class Page2 extends React.Component {
 
   }
 
-  getPermissionAsync = async () => {
-    if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.getPermissionAsync();
-    console.log('hi');
-  }
-
   onPressAddAccount = () => {
     account={
       firstName:this.state.firstName,
@@ -46,12 +30,11 @@ class Page2 extends React.Component {
       email:this.state.email,
       password:this.state.password,
       imageuri:this.state.imageuri,
-      money: 0
     }
 
     console.log(account);
     database.createAccount(account,this.add_Account_success,this.add_Account_fail);
-    database.uploadImage(this.state.imageuri,this.state.email,this.upload_success,this.upload_fail);
+    database.uploadImage(this.state.imageuri,this.state.firstName,this.upload_success,this.upload_fail);
     this.props.navigation.navigate("Page1Screen")
   };
 
@@ -60,14 +43,6 @@ class Page2 extends React.Component {
   }
 
   add_Account_fail=async()=>{
-
-  }
-
-  upload_success=async()=>{
-
-  }
-
-  upload_fail=async()=>{
 
   }
 
@@ -86,13 +61,12 @@ class Page2 extends React.Component {
 
   }
 
-
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-    });
+    });;
 
     if (!result.cancelled) {
       this.setState({ imageuri: result.uri });

@@ -2,9 +2,8 @@ import React from 'react';
 import { Constants, ImagePicker, Permissions } from 'expo';
 import {
   StyleSheet, Text,
-  TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight, Vibration, 
-  ImageBackground
+  TextInput,  TouchableOpacity, View,ImageBackground,
+  Button, ImageEditor,Image,Alert,TouchableHighlight
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import database from './Database'
@@ -28,8 +27,7 @@ class Page1 extends React.Component {
   };
 
   login_success=async(account)=>{
-    this.props.navigation.navigate("buttomPage1",{userMail: account.email})
-    //Alert.alert(account.email)
+    this.props.navigation.navigate("Page3Screen",{userID: account.email})
   }
 
   login__fail=async(error)=>{
