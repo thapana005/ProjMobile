@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, ListView, FlatList, StyleSheet, Text } from 'react-native';
-import AccountRow from './AccountRow';
+import InvenRow from './InvenRow';
 
-const AccountListview = ({ itemList }) => (
+const InvenListview = ({ itemList }) => (
     <View style={styles.container}>
         <FlatList
                 data={itemList}
-                renderItem={({ item }) => <AccountRow
+                renderItem={({ item }) => <InvenRow
                     nameBox={item.nameBox}
-                    price={item.price}
+                    item={item.item}
                     image_url={item.image_url}
                 />}
             />
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AccountListview;
+export default InvenListview;

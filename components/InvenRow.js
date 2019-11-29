@@ -41,19 +41,19 @@ const styles = StyleSheet.create({
 });
 
 
-const AccountRow = ({nameBox,price,image_url}) => (
+const InvenRow = ({nameBox,item,image_url}) => (
 
     <View>
       <View style={styles.container}>
           <TouchableOpacity>
             <Text style={styles.title}>
-                {nameBox}
+                {"Box: "+nameBox}
             </Text>
           <Image source={{ uri: image_url }} style={styles.photo} />
             <View style={styles.container_text}>
             
             <Text style={styles.title}>
-                {price}
+                {item}
             </Text>  
             </View>
           </TouchableOpacity>
@@ -61,4 +61,4 @@ const AccountRow = ({nameBox,price,image_url}) => (
     </View>
 );
 
-export default AccountRow;
+export default InvenRow;

@@ -10,6 +10,8 @@ import Page3 from './Page3'
 import Page4 from './Page4'
 import Page5 from './Page5'
 import Page6 from './Page6'
+import Page7 from './Page7'
+import Page8 from './Page8'
 
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -45,6 +47,17 @@ const stackPage6 = createStackNavigator({
         header:null}},
     });
 
+const stackPage7 = createStackNavigator({
+        Page7Screen:{screen: Page7,navigationOptions: {
+        header:null}},
+    });
+
+const stackPage8 = createStackNavigator({
+      Page8Screen:{screen: Page8,navigationOptions: {
+      header:null}},
+    });
+
+
 const example = createBottomTabNavigator({
     buttomPage1:{screen:Page3,navigationOptions: {
     header:null}},
@@ -58,6 +71,10 @@ const bottomNavigate = createBottomTabNavigator({
         buttomPage2:{screen:stackPage4,navigationOptions: {
         header:null}},
         buttomPage3:{screen:stackPage6,navigationOptions: {
+        header:null}},
+        buttomPage4:{screen:stackPage7,navigationOptions: {
+        header:null}},
+        buttomPage5:{screen:stackPage8,navigationOptions: {
         header:null}},
     },
       {
@@ -75,6 +92,10 @@ const bottomNavigate = createBottomTabNavigator({
             }
             else if(routeName == 'buttomPage3'){
               iconName = 'ios-aperture';
+            } else if(routeName == 'buttomPage4'){
+              iconName = 'ios-card';
+            } else if(routeName == 'buttomPage5'){
+              iconName = 'ios-briefcase';
             }
             return <Ionicons name={iconName} size={25} color={tintColor} />;
           },

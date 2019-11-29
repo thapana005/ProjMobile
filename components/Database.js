@@ -65,15 +65,56 @@ class Database{
       console.log(err)
     })
   }
+
+  // async getInventory(id, complete) {
+  //   firebase.firestore().collection('Inventorys').where('email', '==', 'b@gmail.com').get().then(snap => {
+  //     if (snap.empty) {
+  //       console.log("EMP")
+  //     } else {
+  //       snap.forEach(doc => {
+  //         complete(doc.data())
+  //       })
+  //     }
+  //   }).catch(err => {
+  //     console.log(err)
+  //   })
+  // }
+
+  async getInventory(id, complete) {
+    firebase.firestore().collection('Inventorys').where('email', '==', 'b@gmail.com').onSnapshot(query => {
+      query.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          complete(change.doc.data())
+        }
+      })
+    })
+  }
   
-  async updateFund(abc){
-    firebase.firestore().collection('Account').where('firstName', '==', 'Aa').get().then(snap => {
+  async updateFund(eMail, Price, complete){
+    firebase.firestore().collection('Account').where('email', '==', eMail).get().then(snap => {
       if (snap.empty) {
         console.log("EMP")
       } else {
         snap.forEach(doc => {
           console.log(doc.id)
-          let plusMoney = doc.data().money + 100
+          let plusMoney = doc.data().money + Price
+          firebase.firestore().collection('Account').doc(doc.id).update({money: plusMoney}).then(complete())
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+
+  }
+
+  async minusFund(eMail, Price){
+    firebase.firestore().collection('Account').where('email', '==', eMail).get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          console.log(doc.id)
+          let plusMoney = doc.data().money - Price
           firebase.firestore().collection('Account').doc(doc.id).update({money: plusMoney})
         })
       }
@@ -201,9 +242,29 @@ class Database{
     getUserComplete(user)
   }
 
-  async addItemtoInventory(Obj, addItemComplete) {
-    firebase.firestore().collection("Inventorys").doc(Obj.email).set(Obj).then(addItemComplete());
+  async addItemtoInventory(Obj, email, price, addItemComplete, addItemFail) {
+    firebase.firestore().collection("Account").where('email', '==', email).get().then(snap => {
+      if (snap.empty) {
+        console.log("EMP")
+      } else {
+        snap.forEach(doc => {
+          console.log("in openbox")
+          console.log(doc.data().money)
+          if (doc.data().money - price >= 0) {
+            // addItemComplete(Obj);
+            firebase.firestore().collection("Inventorys").add(Obj).then(addItemComplete(Obj.item));
+          } else {
+            addItemFail()
+          }
+        })
+      }
+    })
+    //firebase.firestore().collection("Inventorys").add(Obj).then(addItemComplete(Obj.item));
   }
+
+  // async addItemtoInventory2(Obj, addItemComplete2) {
+  //   firebase.firestore().collection("Inventorys").add(Obj).then(addItemComplete2(Obj.item));
+  // }
 
 
   async createAccount(Account,add_Account_success,add_Account_fail)
