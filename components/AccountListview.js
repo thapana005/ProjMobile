@@ -7,6 +7,8 @@ const AccountListview = ({ itemList }) => (
         <FlatList
                 data={itemList}
                 renderItem={({ item }) => <AccountRow
+                    rot={item.rot}
+                    boxPage={item.boxPage}
                     nameBox={item.nameBox}
                     price={item.price}
                     image_url={item.image_url}

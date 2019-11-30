@@ -20,6 +20,7 @@ class Page3 extends React.Component {
      this.state = {
        name: 'Name : ',
        email: 'Email : ',
+       cash: 'Cash: ',
        imageuri :'https://sv1.picz.in.th/images/2019/08/22/ZRRyeW.png',
      };
 
@@ -57,7 +58,7 @@ class Page3 extends React.Component {
     this.setState({ name: user.firstName });
     this.setState({ email: user.email});
     this.setState({ imageuri: user.imageuri });
-    // this.setState({name: user.name})
+    this.setState({ cash: user.money})
     // this.setState({email: user.email})
   }
 
@@ -65,6 +66,7 @@ class Page3 extends React.Component {
     this.setState({ imageuri: account.imageuri });
     this.setState({ name: account.firstName });
     this.setState({ email: account.email});
+    this.setState({ cash: account.money})
   }
 
   read_Account_fail=async()=>{
@@ -107,7 +109,7 @@ class Page3 extends React.Component {
 
   onChangeTextName = name => this.setState({ name });
   onChangeTextEmail = email => this.setState({ email })
-
+  // onChangeTextEmail = cash => this.setState({ cash })
   
 
   render() {
@@ -133,7 +135,9 @@ class Page3 extends React.Component {
                    style={styles.imgStyles}
                    source={{uri:this.state.imageuri}}/>
                 </TouchableOpacity>
-        </View>
+                <Text style={styles.text123}>Cash: {this.state.cash}</Text>
+          </View>
+
 
         </View>
         <View style={{flex:1}}>
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
       padding: 10,
       marginRight:5,
       marginLeft: 5,
-      marginTop:35,
+      marginTop:5,
       borderRadius: 50,
       borderColor:'white',
       borderWidth : 1,
@@ -183,6 +187,20 @@ const styles = StyleSheet.create({
     padding: 10,
     margin:5,
     borderRadius: 50,
+    borderColor:'white',
+    borderWidth : 1,
+    fontSize:20,
+    color: 'white',
+},
+text123: {
+    alignItems: 'center',
+    padding:10,
+    width: 150,
+    height:50,
+    backgroundColor: 'transparent',
+    margin:5,
+    marginTop:10,
+    borderRadius: 20,
     borderColor:'white',
     borderWidth : 1,
     fontSize:20,

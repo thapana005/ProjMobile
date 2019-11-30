@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
@@ -12,13 +12,11 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'center',
         alignItems:'center',
-        borderRadius: 50,
     },
     title: {
         fontSize: 16,
         backgroundColor: 'transparent',
-        alignSelf:'center',
-        color:'#000000'
+        alignSelf:'center'
     },
     container_text: {
         flex: 1,
@@ -35,22 +33,19 @@ const styles = StyleSheet.create({
     },
     photo: {
         height: 120,
-        width: 150,
+        width: 120,
         margin:5,
         alignItems: 'center'
 
     },
 });
 
-onchangePage = (rot, way) => {
-    rot.navigate(way)
-  }
 
-const AccountRow = ({rot,boxPage,nameBox,price,image_url}) => (
+const AccountRow3 = ({nameBox,price,image_url}) => (
 
     <View>
       <View style={styles.container}>
-          <TouchableOpacity onPress={this.onchangePage.bind(this, rot, boxPage)}>
+          <TouchableOpacity>
             <Text style={styles.title}>
                 {nameBox}
             </Text>
@@ -66,4 +61,9 @@ const AccountRow = ({rot,boxPage,nameBox,price,image_url}) => (
     </View>
 );
 
-export default AccountRow;
+export default AccountRow3;
+
+
+//  https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU0naHKIj9D7oTgl4LelaGnMuqIwDgFusR337HCpYmhiwzm8ktqMjv2INKLMlhprbp6CTE/256fx256f
+// https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f
+

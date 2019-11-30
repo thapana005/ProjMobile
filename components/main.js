@@ -1,55 +1,33 @@
 import React from 'react';
-import { Constants, ImagePicker, Permissions } from 'expo';
+import { Constants, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight, ImageBackground
+  Button, ImageEditor,Image,Alert,TouchableHighlight,ImageBackground,
 } from 'react-native';
 import database from './Database'
 import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
 import AccountListview from './AccountListview'
 
-
-class Page4 extends React.Component {
+class Page3 extends React.Component {
 
   constructor (props){
      super (props);
      this.state = {
-       item: [],
+       item:[],
        name: 'Name : ',
-       email: 'Email : ',
-       imageuri :'https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU0naHKIj9D7oTgl4LelaGnMuqIwDgFusR337HCpYmhiwzm8ktqMjv2INKLMlhprbp6CTE/256fx256f',
+       email: 'Trade Link : ',
+       imageuri :'https://i-love-png.com/images/img_191958_11550.png',
      };
 
   }
 
   async componentDidMount () {
+    // this.focusListener = this.props.navigation.addListener('didFocus', () => {
+    //   this.onFocusFunction()
+    // })
     this.setV()
-    database.getInventoryUpdate(this.getInventoryUpdateComplete)
-  }
-
-  getInventoryUpdateComplete=async(gett)=>{
-    this.setState({ name: gett.email })
-    this.setState({ imageuri: gett.imageuri })
-  }
-
-  read_Account_success=async(account)=>{
-    const navigate = this.props.navigation;
-    this.setState({
-      item:this.state.item.concat([{
-        rot: navigate,
-        boxPage:account.boxPage,
-        nameBox:account.name,
-        price:account.price.toString(),
-        image_url:account.boximageuri
-      }])
-    })
-    console.log(account.name)
-  }
-
-  read_Account_fail=async()=>{
-
   }
 
   setV=()=>{
@@ -58,12 +36,35 @@ class Page4 extends React.Component {
     // this.setState({ price: this.state.name})
     database.readAll3(this.read_Account_success, this.read_Account_fail)
   }
+  read_Account_success=async(account)=>{
+    this.setState({
+      item:this.state.item.concat([{
+        deviceName:this.state.devName,
+        nameBox:account.name,
+        price:account.price.toString(),
+        image_url:account.boximageuri
+      }])
+    })
+    console.log(account.name)
+  }
 
-  onchangePage = () => {
-    this.props.navigation.navigate("PageAKScreen",{userID: account.email})
+
+  read_Account_fail=async()=>{
+
   }
 
   
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+    });;
+
+    if (!result.cancelled) {
+      this.setState({ imageuri: result.uri });
+    }
+};
 
   render() {
     return (
@@ -76,11 +77,11 @@ class Page4 extends React.Component {
           <Image source={require('./mainTop.jpeg')} styles={{height:'10%', width:'100%'}}/>
         </View>
       
-        <View style={{justifyContent:'center',alignItems: 'center', width:'100%'}}>
-          <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>{this.state.name}</Text>
-          <Image style={styles.imgStyles} source={{uri: this.state.imageuri}}/>
-        </View>
+        <View style={{flex:1, marginTop:100}}>
 
+
+
+        </View>
         <View style ={styles.list}>
             <AccountListview itemList={this.state.item}/>
         </View>
@@ -127,8 +128,9 @@ const styles = StyleSheet.create({
     color: 'white',
 },
   imgStyles: {
-      width: 190,
+      width: 120,
       height: 120,
+      justifyContent: 'center',
       alignItems: 'center',
       marginTop: 20,
 },
@@ -150,5 +152,7 @@ const styles = StyleSheet.create({
     margin:5,
   }
 
+
 });
-export default Page4;
+
+export default Page3;

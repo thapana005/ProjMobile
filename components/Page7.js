@@ -1,7 +1,7 @@
 import React from 'react';
 import { Constants, Permissions } from 'expo';
 import {
-  StyleSheet, Text,
+  StyleSheet, Text,ScrollView,
   TextInput,  TouchableOpacity, View,
   Button, ImageEditor,Image,Alert,TouchableHighlight,ImageBackground, Vibration
 } from 'react-native';
@@ -9,7 +9,9 @@ import database from './Database'
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
-
+import Items2 from './Items2'
+import Items3 from './Items3'
+import Items4 from './Items4'
 
 class Page7 extends React.Component {
 
@@ -23,11 +25,62 @@ class Page7 extends React.Component {
      };
 
   }
+  state = {
+    text: null
+  };
 
+  // componentDidMount() {
+  //   this.update();
+  // }
+
+  onChangeText = text => this.setState({ text });
+
+  onPressAdd = () => {
+    this.addText();
+    this.setState({ text: null });
+  };
+
+  addText() {
+    if (this.state.text === null || this.state.text === "") {
+      return false;
+    }
+    database.putText(this.state.text,this.add_text_success,this.add_text_fail);
+
+  };
+
+  add_text_success=async()=>{
+    this.update();
+  }
+
+  add_text_fail=async(error)=>{
+      console.log(error);
+  }
+
+  change_Complete=(id)=>{
+    database.updateText(id);
+    this.update();
+  }
+
+  change_doin=(id)=>{
+    database.updateText2(id);
+    this.update();
+  }
+
+  delete_Complete=(id)=>{
+    database.deleteText(id);
+    this.update()
+  }
+
+  update (){
+    this.todo.update();
+    this.todoin.update();
+    this.todone.update();
+  };
   async componentDidMount () {
     // this.focusListener = this.props.navigation.addListener('didFocus', () => {
     //   this.onFocusFunction()
     // })
+    this.update();
     database.getUser(this.getUserComplete)
   }
 
@@ -75,7 +128,7 @@ onChangeTextPrice = price => this.setState({price});
             </View>
 
         </View>
-        <View style={{flex:1}}>
+        <View style={{}}>
         <TextInput style={styles.text1} onChangeText={this.onChangeTextPrice}></TextInput>
 
         <TouchableOpacity
@@ -84,7 +137,36 @@ onChangeTextPrice = price => this.setState({price});
         <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>OK</Text>
       </TouchableOpacity>
         </View>
-    
+        <View style={{justifyContent: 'center'}}>
+          <TextInput
+              style={styles.text1}
+              placeholder="Note what is you want."
+              onChangeText={this.onChangeText}/>
+
+          <TouchableOpacity
+              style={styles.touchableUser}
+              onPress={this.onPressAdd}>
+              <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>Note</Text>
+          </TouchableOpacity>
+
+          <ScrollView style={styles.listArea}>
+          <Items2
+                  ref={todo =>( this.todo=todo)}
+
+                  onPressTodo={this.change_doin}
+          />
+          <Items4
+                  ref={todoin =>( this.todoin=todoin)}
+
+                  onPressDoin={this.change_Complete}
+          />      
+          <Items3
+                  ref={todone =>( this.todone=todone)}
+  
+                  onPressComplate={this.delete_Complete}
+          />
+        </ScrollView>
+      </View>
       </ImageBackground>
     );
   }

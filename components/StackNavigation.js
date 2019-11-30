@@ -12,6 +12,9 @@ import Page5 from './Page5'
 import Page6 from './Page6'
 import Page7 from './Page7'
 import Page8 from './Page8'
+import PageAK from './PageAK'
+import PageM4 from './PageM4'
+import Splash from './SplashScreen'
 
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -52,8 +55,13 @@ const stackPage7 = createStackNavigator({
         header:null}},
     });
 
-const stackPage8 = createStackNavigator({
+    const stackPage8 = createStackNavigator({
       Page8Screen:{screen: Page8,navigationOptions: {
+      header:null}},
+    });
+
+    const stackPage9 = createStackNavigator({
+      Page9Screen:{screen: Splash,navigationOptions: {
       header:null}},
     });
 
@@ -66,15 +74,13 @@ const example = createBottomTabNavigator({
     })
 
 const bottomNavigate = createBottomTabNavigator({
-        buttomPage1:{screen:stackPage3,navigationOptions: {
+        Profile:{screen:stackPage3,navigationOptions: {
         header:null}},
-        buttomPage2:{screen:stackPage4,navigationOptions: {
+        Shopping:{screen:stackPage4,navigationOptions: {
         header:null}},
-        buttomPage3:{screen:stackPage6,navigationOptions: {
+        Addfund:{screen:stackPage7,navigationOptions: {
         header:null}},
-        buttomPage4:{screen:stackPage7,navigationOptions: {
-        header:null}},
-        buttomPage5:{screen:stackPage8,navigationOptions: {
+        Inventory:{screen:stackPage8,navigationOptions: {
         header:null}},
     },
       {
@@ -82,19 +88,13 @@ const bottomNavigate = createBottomTabNavigator({
           tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
             let iconName;
-            if (routeName == 'buttomPage1') {
-              iconName = 'ios-star';
-            } else if (routeName == 'ChatTab') {
-              iconName = 'ios-chatbubbles';
-            }
-            else if(routeName == 'buttomPage2'){
+            if (routeName == 'Profile') {
               iconName = 'ios-person';
-            }
-            else if(routeName == 'buttomPage3'){
-              iconName = 'ios-aperture';
-            } else if(routeName == 'buttomPage4'){
+            } else if (routeName == 'Shopping') {
+              iconName = 'ios-cart';
+            } else if(routeName == 'Addfund'){
               iconName = 'ios-card';
-            } else if(routeName == 'buttomPage5'){
+            } else if(routeName == 'Inventory'){
               iconName = 'ios-briefcase';
             }
             return <Ionicons name={iconName} size={25} color={tintColor} />;
@@ -103,8 +103,8 @@ const bottomNavigate = createBottomTabNavigator({
     
         tabBarOptions: {
           showLabel: true,
-          activeTintColor: 'white',
-          inactiveTintColor: 'gray',
+          activeTintColor: 'orange',
+          inactiveTintColor: 'white',
           activeBackgroundColor:'#000 000 00',
           labelStyle:{fontSize:15},
           tabStyle:{backgroundColor:'gray',opacity:.8}
@@ -113,6 +113,9 @@ const bottomNavigate = createBottomTabNavigator({
     })
 
 const stack = createStackNavigator({
+        Page9Screen:{screen:Splash,navigationOptions: {
+            header: null}},
+            
         Page1Screen:{screen:Page1,navigationOptions: {
             header: null}},
         Page2Screen:{screen:Page2,navigationOptions: {
@@ -123,8 +126,10 @@ const stack = createStackNavigator({
         Page4Screen:{screen:Page4,navigationOptions: {
             header: null, 
             gesturesEnabled: false}},
-        Page5Screen:{screen:Page5,navigationOptions: {
+        PageAKScreen:{screen:PageAK,navigationOptions: {
             header: null}},
+        PageM4Screen:{screen:PageM4,navigationOptions: {
+              header: null}},
     });
 
 export default createAppContainer(stack);

@@ -4,19 +4,21 @@ import DrawerNavigation from './components/DrawerNavigation'
 import StackNavigation from './components/StackNavigation'
 import SwitchNavigation from './components/StackNavigation'
 import BottomNavigation from './components/BottomNavigation'
+// import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from './components/SplashScreen'
 
 export default class App extends React.Component {
 
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: false }
   }
-
-  // componentDidMount = () => {
-  //   this.props.navigation.navigate("Page1")
-  // }
 
   render()
   {
+    if (this.state.isLoading) {
+      return <SplashScreen />;
+    }
     return (
       <View style={{flex:1,justifyContent: 'center'}}>
         <StackNavigation/>

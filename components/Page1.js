@@ -28,7 +28,7 @@ class Page1 extends React.Component {
   };
 
   login_success=async(account)=>{
-    this.props.navigation.navigate("buttomPage1",{userMail: account.email})
+    this.props.navigation.navigate("Profile",{userMail: account.email})
     //Alert.alert(account.email)
   }
 

@@ -30,15 +30,15 @@ class Page8 extends React.Component {
     this.setState({ email: user.email })
     console.log(user.email)
 
-    this.setV()
+    this.setV(user.email)
   }
 
-  setV=()=>{
+  setV=(maill)=>{
     //database.readListening(this.read_Account_success, this.read_Account_fail)
     // this.setState({ nameBox: this.state.name})
     // this.setState({ price: this.state.name})
     console.log("setv: " + this.state.email)
-    database.getInventory(this.state.email, this.read_Account_success)
+    database.getInventory(maill, this.read_Account_success)
   }
   read_Account_success=async(account)=>{
     this.setState({

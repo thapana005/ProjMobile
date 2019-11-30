@@ -1,45 +1,31 @@
 import React from 'react';
-import { Constants, ImagePicker, Permissions } from 'expo';
+import { Constants, Permissions } from 'expo';
 import {
   StyleSheet, Text,
   TextInput,  TouchableOpacity, View,
-  Button, ImageEditor,Image,Alert,TouchableHighlight, ImageBackground
+  Button, ImageEditor,Image,Alert,TouchableHighlight,ImageBackground,
 } from 'react-native';
 import database from './Database'
 import { LinearGradient } from 'expo-linear-gradient'
 import HeaderNavigationBar from './HeaderNavigationBar'
 import AccountListview from './AccountListview'
 
-
-class Page4 extends React.Component {
+class Page3 extends React.Component {
 
   constructor (props){
      super (props);
      this.state = {
-       item: [],
+       item:[],
        name: 'Name : ',
-       email: 'Email : ',
-       imageuri :'https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFU0naHKIj9D7oTgl4LelaGnMuqIwDgFusR337HCpYmhiwzm8ktqMjv2INKLMlhprbp6CTE/256fx256f',
+       email: 'Trade Link : ',
+       imageuri :'https://i-love-png.com/images/img_191958_11550.png',
      };
 
   }
-
-  async componentDidMount () {
-    this.setV()
-    database.getInventoryUpdate(this.getInventoryUpdateComplete)
-  }
-
-  getInventoryUpdateComplete=async(gett)=>{
-    this.setState({ name: gett.email })
-    this.setState({ imageuri: gett.imageuri })
-  }
-
   read_Account_success=async(account)=>{
-    const navigate = this.props.navigation;
     this.setState({
       item:this.state.item.concat([{
-        rot: navigate,
-        boxPage:account.boxPage,
+        deviceName:this.state.devName,
         nameBox:account.name,
         price:account.price.toString(),
         image_url:account.boximageuri
@@ -48,22 +34,23 @@ class Page4 extends React.Component {
     console.log(account.name)
   }
 
+
   read_Account_fail=async()=>{
 
   }
 
-  setV=()=>{
-    //database.readListening(this.read_Account_success, this.read_Account_fail)
-    // this.setState({ nameBox: this.state.name})
-    // this.setState({ price: this.state.name})
-    database.readAll3(this.read_Account_success, this.read_Account_fail)
-  }
-
-  onchangePage = () => {
-    this.props.navigation.navigate("PageAKScreen",{userID: account.email})
-  }
-
   
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+    });;
+
+    if (!result.cancelled) {
+      this.setState({ imageuri: result.uri });
+    }
+};
 
   render() {
     return (
@@ -73,13 +60,26 @@ class Page4 extends React.Component {
       source={{uri: 'https://cdn.pixabay.com/photo/2015/08/07/12/34/background-879311_1280.jpg'}}>
 
         <View style={{justifyContent:'center',alignItems: 'center', width:'100%'}}>
-          <Image source={require('./mainTop.jpeg')} styles={{height:'10%', width:'100%'}}/>
+          <Image source={require('./m4Box.jpeg')} styles={{height:'10%', width:'100%'}}/>
         </View>
-      
+        
         <View style={{justifyContent:'center',alignItems: 'center', width:'100%'}}>
-          <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>{this.state.name}</Text>
-          <Image style={styles.imgStyles} source={{uri: this.state.imageuri}}/>
+            <Image source={require('./ranBox1.png')} styles={{height:'5%', width:'5%'}}/> 
         </View>
+
+        <TouchableOpacity
+        style={styles.touchableUser}>
+        <Text style={{fontSize:20, color:'#ffffff',textAlign:'center'}}>Open</Text>
+      </TouchableOpacity>
+
+
+
+
+
+
+
+
+
 
         <View style ={styles.list}>
             <AccountListview itemList={this.state.item}/>
@@ -94,7 +94,7 @@ const offset = 16;
 const styles = StyleSheet.create({
   touchableUser:{
     alignItems: 'center',
-    padding:10,
+    padding:5,
     borderRadius: 50,
     borderColor:'white',
     borderWidth : 1,
@@ -127,8 +127,9 @@ const styles = StyleSheet.create({
     color: 'white',
 },
   imgStyles: {
-      width: 190,
+      width: 120,
       height: 120,
+      justifyContent: 'center',
       alignItems: 'center',
       marginTop: 20,
 },
@@ -148,7 +149,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding:10,
     margin:5,
+    marginTop:30
   }
 
+
 });
-export default Page4;
+
+export default Page3;
